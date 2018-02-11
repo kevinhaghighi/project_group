@@ -1,10 +1,17 @@
 const express = require('express');
 const logger = require('morgan');
 const request = require('request-promise');
-const apiKey = ('/.apikey.js');
+const exphbs  = require('express-handlebars');
+const favicon = require('serve-favicon');
+const path = require('path');
+const apiKey = require('./api_key');
 const app = express();
 
 app.use(logger('dev'));
+// app.engine('handlebars', exphbs({defaultLayout: 'index'}));
+// app.set('view engine', 'handlebars');
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(express.static('public'));
 
 function getRequestOptions(url, queryOptions = {}) {
     var options = {
