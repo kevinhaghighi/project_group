@@ -8,31 +8,29 @@ const apiKey = require('./api_key');
 const app = express();
 
 app.use(logger('dev'));
-app.engine('handlebars', exphbs({defaultLayout: 'index'}));
-app.set('view engine', 'handlebars');
+// app.engine('handlebars', exphbs({defaultLayout: 'index'}));
+// app.set('view engine', 'handlebars');
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static('public'));
-app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
-
 
 function getRequestOptions(url, queryOptions = {}) {
-   var options = {
-       url: url,
-       qs: queryOptions,
-       json: true
-   };
+    var options = {
+        url: url,
+        qs: queryOptions,
+        json: true
+    };
 
-   return options;
+    return options;
 }
 function getDailyTimeSeries(symbol) {
-   var options = getRequestOptions('https://www.alphavantage.co/query', { function: 'TIME_SERIES_DAILY', symbol:symbol, apikey: apiKey})
-   console.log(options);
-   
-   return request(options)
-       .then(function(stockData) {
-           return stockData;
-         
-   });
+    var options = getRequestOptions('https://www.alphavantage.co/query', { function: 'TIME_SERIES_DAILY', symbol:symbol, apikey: apiKey})
+    console.log(options);
+    
+    return request(options)
+        .then(function(stockData) {
+            return stockData;
+           
+    });
 }
 app.get('/:symbol', function(req, res) {
     const symbol = req.params.symbol;
