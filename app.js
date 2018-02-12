@@ -1,10 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const request = require('request-promise');
-const exphbs  = require('express-handlebars');
-const favicon = require('serve-favicon');
-const path = require('path');
-const apiKey = require('./api_key');
+const apiKey = ('/.api_key.js');
 const app = express();
 
 // app.use(logger('dev'));
