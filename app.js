@@ -7,11 +7,14 @@ const path = require('path');
 const apiKey = require('./api_key');
 const app = express();
 
+// app.use(logger('dev'));
+// // app.engine('handlebars', exphbs({defaultLayout: 'index'}));
+// // app.set('view engine', 'handlebars');
+// // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(express.static('public'));
+
+
 app.use(logger('dev'));
-// app.engine('handlebars', exphbs({defaultLayout: 'index'}));
-// app.set('view engine', 'handlebars');
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(express.static('public'));
 
 function getRequestOptions(url, queryOptions = {}) {
     var options = {
@@ -31,45 +34,75 @@ function getDailyTimeSeries(symbol) {
             return stockData;
            
     });
-}
+};
+
 app.get('/:symbol', function(req, res) {
     const symbol = req.params.symbol;
     console.log(symbol);
     getDailyTimeSeries(symbol)
-        .then(function(stockData) {
-            const obj = stockData['Time Series (Daily)'];
-            return obj; 
-        })
-        .then(function(data){
-            stockArray(data)
-        });
+    .then(function(stockData) {
+        const obj = stockData['Time Series (Daily)'];
+        return obj; 
+    })
+    .then(function(data){
+        stockArray(data)
+    });
 });
 
-function stockArray(data){
-    //Formatting date
-    const date =new Date();        
-    let dd = date.getDate();
-    let cc = date.getDate()-1;
-    let sun = date.getDate()-2; 
-    let mon = date.getDate()-3;
-    let mm = date.getMonth()+1; 
-    const yyyy = date.getFullYear(); 
-    if(dd<10){ dd='0'+dd}; 
-    if(cc<10){ cc='0'+cc};
-    if(mm<10){ mm='0'+mm};
-    if(sun<10){sun='0'+sun}
-    if(mon<10){ mon='0'+mon};
-    const today = yyyy+'-'+mm+'-'+dd;
-    const yesterday = yyyy+'-'+mm+'-'+cc;
-    console.log(data[yesterday])
-    console.log(yesterday)
-    //pull information from JSON
-    let newStock = [];
-    const yesterdayData = getOpenClose(data[yesterday]);
-    const todayData = getOpenClose(data[today]);
-
-    console.log(yesterdayData, todayData);
+function formatDate(date) {
+    return date.toISOString('YYYY-MM-DD').split('T')[0]
 }
+
+function isSaturday(date){
+    let day = date.getDay();
+    return day === 6;
+}
+
+function isSunday(date){
+    let day = date.getDay();
+    return day === 0;
+}
+
+function isMonday(date){
+    let day = date.getDay();
+    return day === 1;
+}
+
+function stockArray(data){
+    let today;
+    let previous;
+    let date = new Date();
+
+    
+    if (isSunday(date)) {
+        date.setDate(date.getDate() -2);
+        previous = formatDate(date);
+        date.setDate(date.getDate() -1);
+        today = formatDate(date);
+        console.log(today, previous);
+    } else if (isMonday(date)) {
+        today = formatDate(date);
+        date.setDate(date.getDate() -3);
+        previous = formatDate(date);
+        console.log(today, previous);
+    } else if (isSaturday(date)) {
+        date.setDate(date.getDate() -1);
+        previous = formateDate(date);
+        date.setDate(date.getDate() -1);
+        today = formatDate(date);
+        console.log(today, previous);
+    } else {
+        date.setDate(date.getDate());
+        today = formatDate(date);
+        date.setDate(date.getDate() -1);
+        previous = formatDate(date);
+        console.log(today, prevoius)
+    }
+
+    const previousData = getOpenClose(data[previous]);
+    const todayData = getOpenClose(data[today]);
+        console.log(todayData, previousData);
+};
 
 function getOpenClose(obj){
     // console.log(obj)
@@ -80,5 +113,5 @@ function getOpenClose(obj){
 }
 
 app.listen(3000, function() {
-    console.log('8:00pm');
+    console.log('LETS GO')
 });
