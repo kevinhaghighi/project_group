@@ -1,39 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="utf-8">
-    <script src="app.js">  </script>
-    <link rel="stylesheet" href="./public/styles/style.css">
-    <title>SparkStock</title>
+  <meta charset="utf-8">
+  <script src="app.js">  </script>
+  <link rel="stylesheet" href="style.css">
+  <title>StockSpark
+  </title>
 </head>
-<h1>StockSpark</h1>
+
 <body>
-    <div id="title">
+  <img src="picture1.png" alt="StockSpark logo">
+  <div id="title">
+    <h1>StockSpark</h1>
+  </div>
+  <div id="search">
+    <h2 id="enter-symbol">Enter NASDAQ stock symbol</h2>
+    <div id="search-container">
+      <input class="form-input" type="text" placeholder="NASDAQ Stock Symbol">
+      <div id="space"> </div>
+      <button class="btn">See Closing Price</button>
     </div>
-    <div id="search">
-        <h2 id="enter-symbol">Enter NASDAQ stock symbol</h1>
-      
-<input id="s" type="search"></input>
-      
-        </div>
-        <div id="terms-conditions">
-            <p id="terms-conditions-words">By clicking, I accept these</p>
-            <a id="terms-conditions-link" href="link"> Terms & Conditions </a>
-        </div>
+    <div id="terms-conditions">
+      <p id="terms-conditions-words">By clicking, I accept these</p>
+      <a id="terms-conditions-link" href="link"> Terms and Conditions </a>
     </div>
-    <div id="response">
-        <h2 id="response-title">The most recent closing price</h1>
-        <div id="closing-price-container">
-            <p id="closing-price"> Use API to leverage closing price </p>
-        </div>
-        <p id="difference"> (Difference between yesterday and today's closing price) / arrow rendered based on difference
-        </p>
-        <p id="closing time"> At Close: (input closing time)</p>
-    </div>
+  </div>
+  <div id="response">
+    <h2 id="response-title">The most recent closing price</h2>
+    <div id="closing-price-container"></div>
+    <p id="difference"> (Difference between yesterday and today's closing price)
+      <a id="difference-arrow-up">&#10224;</a>
+      <a id="difference-arrow-down">&#10225;</a>
+      <a id="no-difference">&#61;</a>
+    </p>
+    <p id="closing time"> At Close: (input closing time)</p>
+    <i class="fas fa-arrow-alt-up"></i>
+  </div>
 </body>
 <footer id="footer">
-    <img src="" alt="StockSpark logo">
-    <p id="footer-info">All stock information provided by Alpha Vantage API</p>
-    <p id="signature">NYCDA Project by Natasa, Shelby, Margaret, and Kevin</p>
-</footer>
-</html>
+  <p id="footer-info">All stock information provided by Alpha Vantage API</p>
+  <p id="signature">NYCDA Project by Natasa, Shelby, Margaret, and Kevin</p>
