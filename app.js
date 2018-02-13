@@ -78,6 +78,7 @@ function stockArray(data){
         today = formatDate(date);
         console.log(today, previous);
     } else if (isMonday(date)) {
+        date.setDate(date.getDate() -1);
         today = formatDate(date);
         date.setDate(date.getDate() -3);
         previous = formatDate(date);
