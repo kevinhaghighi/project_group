@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <script src="app.js">  </script>
+  <script src="public/scripts/clickButton.js">    </script>
   <link rel="stylesheet" href="./public/styles/style.css">
   <title>StockSpark
   </title>
 </head>
-
 <body>
   <img src="picture1.png" alt="StockSpark logo">
   <div id="title">
@@ -19,7 +18,7 @@
     <div id="search-container">
       <input class="form-input" type="text" placeholder="NASDAQ Stock Symbol">
       <div id="space"> </div>
-      <button class="btn">See Closing Price</button>
+      <button  id="enter-button" class="btn">See Closing Price</button>
     </div>
     <div id="terms-conditions">
       <p id="terms-conditions-words">By clicking, I accept these</p>
@@ -27,15 +26,6 @@
     </div>
   </div>
   <div id="response">
-    <h2 id="response-title">The most recent closing price</h2>
-    <div id="closing-price-container"></div>
-    <p id="difference"> (Difference between yesterday and today's closing price)
-      <a id="difference-arrow-up">&#10224;</a>
-      <a id="difference-arrow-down">&#10225;</a>
-      <a id="no-difference">&#61;</a>
-    </p>
-    <p id="closing time"> At Close: (input closing time)</p>
-    <i class="fas fa-arrow-alt-up"></i>
   </div>
   <footer id="footer">
     <p id="footer-info">All stock information provided by Alpha Vantage API</p>
