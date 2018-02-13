@@ -39,6 +39,7 @@ app.get('/:symbol', function(req, res) {
     getDailyTimeSeries(symbol)
     .then(function(stockData) {
         const obj = stockData['Time Series (Daily)'];
+        console.log(obj);
         return obj; 
     })
     .then(function(data){
@@ -78,6 +79,7 @@ function stockArray(data){
         today = formatDate(date);
         console.log(today, previous);
     } else if (isMonday(date)) {
+        date.setDate(date.getDate() -1);
         today = formatDate(date);
         date.setDate(date.getDate() -3);
         previous = formatDate(date);
