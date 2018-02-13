@@ -39,6 +39,7 @@ app.get('/:symbol', function(req, res) {
     getDailyTimeSeries(symbol)
     .then(function(stockData) {
         const obj = stockData['Time Series (Daily)'];
+        console.log(obj);
         return obj; 
     })
     .then(function(data){
