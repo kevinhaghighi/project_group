@@ -3,14 +3,11 @@ const logger = require('morgan');
 const request = require('request-promise');
 const apiKey = ('/.api_key.js');
 const app = express();
-
 // app.use(logger('dev'));
-// // app.engine('handlebars', exphbs({defaultLayout: 'index'}));
-// // app.set('view engine', 'handlebars');
-// // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-// app.use(express.static('public'));
-
-
+// app.engine('handlebars', exphbs({defaultLayout: 'index'}));
+// app.set('view engine', 'handlebars');
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(express.static('public'));
 app.use(logger('dev'));
 
 function getRequestOptions(url, queryOptions = {}) {
@@ -36,15 +33,15 @@ function getDailyTimeSeries(symbol) {
 app.get('/:symbol', function(req, res) {
     const symbol = req.params.symbol;
     console.log(symbol);
+    res.sendFile(__dirname + '/index.html');
     getDailyTimeSeries(symbol)
     .then(function(stockData) {
         const obj = stockData['Time Series (Daily)'];
-        console.log(obj);
         return obj; 
     })
     .then(function(data){
         stockArray(data)
-    });
+    })
 });
 
 function formatDate(date) {
