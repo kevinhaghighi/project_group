@@ -1,13 +1,16 @@
 const express = require('express');
-const logger = require('morgan');
-const request = require('request-promise');
-const apiKey = ('/.api_key.js');
+const ejs = require('ejs');
 const app = express();
-
-app.use(express.static('public'));
-
+const apiKey = ('/.api_key.js');
+const request = require('request-promise');
+const logger = require('morgan');
 
 app.use(logger('dev'));
+app.use('/public', express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
+app.get('/', function(req,res){
+    res.render('index');
+})
 function getRequestOptions(url, queryOptions = {}) {
     var options = {
         url: url,
@@ -18,18 +21,15 @@ function getRequestOptions(url, queryOptions = {}) {
     return options;
 }
 function getDailyTimeSeries(symbol) {
-    var options = getRequestOptions('https://www.alphavantage.co/query', { function: 'TIME_SERIES_DAILY', symbol:symbol, apikey: apiKey})
+    var options = getRequestOptions('https://www.alphavantage.co/query', { function: 'TIME_SERIES_DAILY', symbol:symbol, apikey: apiKey});
     console.log(options);
-    
-    return request(options)
-        .then(function(stockData) {
-            return stockData;
-           
+    return request(options).then(function(stockData) {
+            return stockData;   
     });
 };
 
 app.get('/:symbol', function(req, res) {
-    const symbol = req.params.symbol;
+    const symbol = req.query.search;
     console.log(symbol);
     getDailyTimeSeries(symbol)
     .then(function(stockData) {
@@ -38,7 +38,11 @@ app.get('/:symbol', function(req, res) {
         return obj; 
     })
     .then(function(data){
-        stockArray(data)
+        const objResults = 
+        stockArray(data);
+        
+        console.log(objResults);
+        res.render('results', {symbol: symbol, objResults:objResults});
     });
 });
 
@@ -90,12 +94,16 @@ function stockArray(data){
         today = formatDate(date);
         date.setDate(date.getDate() -1);
         previous = formatDate(date);
-        console.log(today, prevoius)
+        console.log(today, previous);
     }
 
     const previousData = getOpenClose(data[previous]);
     const todayData = getOpenClose(data[today]);
-        console.log(todayData, previousData);
+    console.log(todayData, previousData);
+    return {today: today,
+        todayData: todayData, 
+        previousData: previousData
+    };
 };
 
 function getOpenClose(obj){
@@ -106,6 +114,6 @@ function getOpenClose(obj){
     };
 }
 
-app.listen(3000, function() {
-    console.log('LETS GO')
-});
+app.listen(3000, function(){
+    console.log('listening on port 3000');
+})

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="./public/styles/style.css">
+  <title>StockSpark
+  </title>
+</head>
+<body>
+  <img src="public/picture1.png" alt="StockSpark logo">
+  <div id="title">
+    <h1>StockSpark</h1>
+  </div>
+  <div id="result-box">
+    <h2 id="results-title"> <%= symbol.toUpperCase() %></h1>
+    <% const todayData = objResults.todayData.close %>
+    <% const previousData = objResults.previousData.close %>
+    <% if (todayData > previousData){ %>
+        <span id="green">&#8593</span>
+        <% } else if (todayData < previousData){ %>
+         <span id="red">&#8595</span>
+        <% } else {%>
+        <span id="neutral">-</span>
+        <% } %>
+    <span><%= Number(((todayData - previousData)/ previousData).toFixed(2)) %> % </span>
+  </div>
+  <div  id="price-data">
+      <strong><p>Today's closing price is:</strong> <%= todayData %></p>
+      <strong><p>The previous day's closing price is: </strong> <%= previousData %></p>
+      <p>Data as of <%=objResults.today %> </p>
+  </div>
+      <form action='/' method="GET">
+        <button id="return-button" class="btn" type="submit">Return to Search</button>
+  </form>
+</body>
+</html>
