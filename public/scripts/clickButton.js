@@ -1,4 +1,3 @@
-window.onload = function () {
     var button = document.getElementById("enter-button");
     button.addEventListener('click',function() {
       if (document.contains(document.getElementById("results-from-api"))) {
@@ -29,4 +28,3 @@ window.onload = function () {
       document.getElementById("response").appendChild(results);
       document.getElementById("response").appendChild(difference);
       }  );
-  }
